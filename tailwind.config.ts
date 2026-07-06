@@ -10,6 +10,9 @@ const config: Config = {
           light: '#eff6ff',
         },
       },
+      fontFamily: {
+        hand: ['var(--font-hand)', 'cursive'],
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],

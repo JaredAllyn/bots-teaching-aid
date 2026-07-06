@@ -1,5 +1,13 @@
 import type { Metadata } from 'next';
+import { Schoolbell } from 'next/font/google';
 import './globals.css';
+
+const schoolbell = Schoolbell({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-hand',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Bots Teaching Aid',
@@ -8,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={schoolbell.variable}>
       <body className="font-sans antialiased">{children}</body>
     </html>
   );
