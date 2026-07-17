@@ -32,6 +32,7 @@ export interface GenerateRequestBody {
   subject: string;
   otherSubject?: string;
   standard: string;
+  lengthMinutes: number;
   topic: string;
   resources: string;
   referenceText?: string;

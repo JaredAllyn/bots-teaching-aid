@@ -17,6 +17,7 @@ export function buildUserPrompt(body: GenerateRequestBody): string {
   const sections: string[] = [];
 
   sections.push(`Plan type requested: ${body.planType}`);
+  sections.push(`Desired total length: ${body.lengthMinutes} minutes`);
   sections.push(`Subject: ${subjectLabel}`);
   sections.push(`Grade level: ${body.standard}`);
   sections.push(`Topic: ${body.topic}`);
@@ -50,6 +51,9 @@ export function buildUserPrompt(body: GenerateRequestBody): string {
 5. Quick Assessment / Reflection Question`;
 
   sections.push(structureInstructions);
+  sections.push(
+    `The plan must fit within a total of ${body.lengthMinutes} minutes. Give each timed section (e.g. Introduction/Warm-up, Main Activities, Assessment, Conclusion) an explicit time allocation, and make sure those allocations add up to approximately ${body.lengthMinutes} minutes — do not default to a different duration.`
+  );
   sections.push(
     `Design everything strictly around the resources listed above — do not suggest anything the teacher hasn't said they have (e.g. no printers, projectors, or internet unless mentioned). Write the entire response in English only, in clear practical language.`
   );

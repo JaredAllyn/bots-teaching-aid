@@ -1,7 +1,13 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { MAX_TEXT_LENGTH, MAX_IMAGES, MAX_IMAGE_SIZE_MB } from '@/lib/constants';
+import {
+  MAX_TEXT_LENGTH,
+  MAX_IMAGES,
+  MAX_IMAGE_SIZE_MB,
+  MIN_LENGTH_MINUTES,
+  MAX_LENGTH_MINUTES,
+} from '@/lib/constants';
 import { PLAN_TYPE_OPTIONS, SUBJECT_OPTIONS, STANDARD_OPTIONS } from '@/types';
 import type { ReferenceImage } from '@/types';
 
@@ -29,6 +35,7 @@ function readFileAsBase64(file: File): Promise<string> {
 
 export default function LessonForm({ onGenerated }: LessonFormProps) {
   const [planType, setPlanType] = useState<string>(PLAN_TYPE_OPTIONS[0]);
+  const [lengthMinutes, setLengthMinutes] = useState('');
   const [subject, setSubject] = useState('');
   const [otherSubject, setOtherSubject] = useState('');
   const [standard, setStandard] = useState('');
@@ -81,6 +88,12 @@ export default function LessonForm({ onGenerated }: LessonFormProps) {
 
   function validate(): string | null {
     if (!planType) return 'Please choose a plan type.';
+    if (!lengthMinutes.trim()) return 'Please enter the desired length, in minutes.';
+    const lengthValue = Number(lengthMinutes);
+    if (!Number.isInteger(lengthValue))
+      return 'Length must be a whole number of minutes.';
+    if (lengthValue < MIN_LENGTH_MINUTES || lengthValue > MAX_LENGTH_MINUTES)
+      return `Length must be between ${MIN_LENGTH_MINUTES} and ${MAX_LENGTH_MINUTES} minutes.`;
     if (!subject) return 'Please choose a subject.';
     if (subject === 'Other' && !otherSubject.trim()) return 'Please tell us the subject name.';
     if (!standard) return 'Please choose a standard/grade.';
@@ -111,6 +124,7 @@ export default function LessonForm({ onGenerated }: LessonFormProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           planType,
+          lengthMinutes: Number(lengthMinutes),
           subject,
           otherSubject: subject === 'Other' ? otherSubject : undefined,
           standard,
@@ -156,6 +170,27 @@ export default function LessonForm({ onGenerated }: LessonFormProps) {
             </option>
           ))}
         </select>
+      </div>
+
+      <div>
+        <label className={labelClass} htmlFor="lengthMinutes">
+          Length (minutes)
+        </label>
+        <input
+          id="lengthMinutes"
+          type="number"
+          inputMode="numeric"
+          className={inputClass}
+          placeholder="e.g. 45"
+          value={lengthMinutes}
+          onChange={(e) => setLengthMinutes(e.target.value)}
+          min={MIN_LENGTH_MINUTES}
+          max={MAX_LENGTH_MINUTES}
+          required
+        />
+        <p className="mt-1 text-xs text-gray-400">
+          Enter the desired length in minutes ({MIN_LENGTH_MINUTES}–{MAX_LENGTH_MINUTES}).
+        </p>
       </div>
 
       <div>

@@ -7,6 +7,8 @@ import {
   ALLOWED_IMAGE_TYPES,
   CLAUDE_MODEL,
   CLAUDE_MAX_TOKENS,
+  MIN_LENGTH_MINUTES,
+  MAX_LENGTH_MINUTES,
 } from '@/lib/constants';
 import { isDailyLimitReached, recordRequest } from '@/lib/rateLimiter';
 import { buildSystemPrompt, buildUserPrompt } from '@/lib/prompt';
@@ -46,11 +48,32 @@ export async function POST(req: NextRequest) {
     return jsonError('We could not read your request. Please try again.', 400);
   }
 
-  const { planType, subject, otherSubject, standard, topic, resources, referenceText, images } =
-    body;
+  const {
+    planType,
+    subject,
+    otherSubject,
+    standard,
+    lengthMinutes,
+    topic,
+    resources,
+    referenceText,
+    images,
+  } = body;
 
   if (!planType || (planType !== 'Full lesson plan' && planType !== 'Single activity')) {
     return jsonError('Please choose a valid plan type.', 400);
+  }
+  if (
+    lengthMinutes === undefined ||
+    lengthMinutes === null ||
+    !Number.isInteger(lengthMinutes) ||
+    lengthMinutes < MIN_LENGTH_MINUTES ||
+    lengthMinutes > MAX_LENGTH_MINUTES
+  ) {
+    return jsonError(
+      `Length must be a whole number between ${MIN_LENGTH_MINUTES} and ${MAX_LENGTH_MINUTES} minutes.`,
+      400
+    );
   }
   if (!subject || !subject.trim()) {
     return jsonError('Please choose a subject.', 400);

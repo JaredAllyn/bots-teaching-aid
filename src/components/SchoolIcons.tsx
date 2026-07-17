@@ -55,3 +55,36 @@ export function CrayonsIcon({ className }: IconProps) {
     </svg>
   );
 }
+
+export function PencilIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <path d="M5 16.5 15.5 6l2.5 2.5L7.5 19H5z" fill="#facc15" stroke="#a16207" strokeWidth={1} strokeLinejoin="round" />
+      <path d="M15.5 6 18 3.5a1.6 1.6 0 0 1 2.5 2L18 8z" fill="#e11d48" stroke="#a16207" strokeWidth={1} strokeLinejoin="round" />
+      <path d="M5 16.5 4 19.5l3-1z" fill="#78350f" />
+    </svg>
+  );
+}
+
+export function BookIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <path d="M12 6.5C10.2 5.2 7.5 4.7 4.5 5v13c3 0 5.7.6 7.5 2z" fill="#3b82f6" stroke="#1d4ed8" strokeWidth={0.8} strokeLinejoin="round" />
+      <path d="M12 6.5c1.8-1.3 4.5-1.8 7.5-1.5v13c-3 0-5.7.6-7.5 2z" fill="#60a5fa" stroke="#1d4ed8" strokeWidth={0.8} strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function RulerIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <rect x="3" y="9" width="18" height="6" rx="1" fill="#fde68a" stroke="#a16207" strokeWidth={1} transform="rotate(-18 12 12)" />
+      <g stroke="#a16207" strokeWidth={1} transform="rotate(-18 12 12)">
+        <line x1="6" y1="9" x2="6" y2="12" />
+        <line x1="9.5" y1="9" x2="9.5" y2="11" />
+        <line x1="13" y1="9" x2="13" y2="12" />
+        <line x1="16.5" y1="9" x2="16.5" y2="11" />
+      </g>
+    </svg>
+  );
+}
